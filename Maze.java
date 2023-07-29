@@ -74,6 +74,20 @@ public class Maze {
     }
 
     /**
+     * <p>
+     * Will add the passed value to the value of the cell (cells start at 0) (0=open, 1=closed, 2=start, 3=end)
+     * @param x the x-value of the cell
+     * @param y the y-value of the cell
+     * @param val the new value of the cell (0=open, 1=closed, 2=start, 3=end (negatives are visited by solver)) (uses % operator to adjust values to fit this range)
+     */
+    public void setCell(int x, int y, int val){
+        if(x <= maze[0].length && y<= maze.length){
+            //0: open; 1: closed; 2: start; 3: end
+            maze[y][x] = val;
+        }
+    }
+
+    /**
      * @param x the x-value of the cell
      * @param y the y-value of the cell
      * @return the value of the cell specified (0=open, 1=closed, 2=start, 3=end)

@@ -47,13 +47,35 @@ public class MazeSolver {
                 if(maze.getCell(i-1, j) == 0){
                     int x = ((i-1)*10) + j;
                     q.add(x);
+                    x = (i * 10) + j;
+                    maze.setCell(i-1, j, x-11);
                 }
-            }else if(i <= maze.getHeight()){
+            }
+            if(i < maze.getHeight() - 1){
                 if(maze.getCell(i+1, j) == 0){
                     int x = ((i+1) * 10) + j;
                     q.add(x);
+                    x = (i * 10) + j;
+                    maze.setCell(i+1, j, x-11);
                 }
             }
+            if(j > 0){
+                if(maze.getCell(i, j-1) == 0){
+                    int x = (i * 10) + j - 1;
+                    q.add(x);
+                    x = (i * 10) + j;
+                    maze.setCell(i, j-1, x-11);
+                }
+            }
+            if(j < maze.getWidth() -1){
+                if(maze.getCell(i, j+1) == 0){
+                    int x = (i * 10) + j + 1;
+                    q.add(x);
+                    x = (i * 10) + j;
+                    maze.setCell(i, j+1, x-11);
+                }
+            }
+
         }
     }
 
