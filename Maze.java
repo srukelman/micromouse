@@ -7,6 +7,9 @@ public class Maze {
     public Maze(int width, int height){
         this.maze = new int[height][width];
     }
+    public Maze(int[][] maze){
+        this.maze = maze;
+    }
 
     /**
      * <p>

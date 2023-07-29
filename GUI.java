@@ -1,10 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
-import java.util.jar.JarEntry;
-
 import javax.swing.*;
-import javax.swing.event.*;
 
 
 public class GUI extends JFrame implements ActionListener{
@@ -19,9 +16,13 @@ public class GUI extends JFrame implements ActionListener{
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new FlowLayout());
         topPanel.add(wLabel = new JLabel("Width: "));
-        topPanel.add(widthField = new JTextField("Width"));
+        widthField = new JTextField("");
+        widthField.setColumns(5);
+        topPanel.add(widthField);
         topPanel.add(hLabel = new JLabel("Height: "));
-        topPanel.add(heightField = new JTextField("Height"));
+        heightField = new JTextField("");
+        heightField.setColumns(5);
+        topPanel.add(heightField);
         topPanel.add(changeButton = new JButton("Resize"));
         changeButton.addActionListener(this);
         add(topPanel, BorderLayout.NORTH);
@@ -52,6 +53,18 @@ public class GUI extends JFrame implements ActionListener{
             return;
         }
         if(e.getSource() == changeButton){
+            try{
+                int oldmax = Math.max(maze.getHeight(), maze.getWidth());
+                int newWidth = Integer.parseInt(widthField.getText());
+                int newHeight = Integer.parseInt(heightField.getText());
+                int newmax = Math.max(newHeight, newWidth);
+                maze.updateSize(newHeight, newWidth, true);
+                board.setMaze(maze);
+                board.setCellLength(board.getCellLength()*oldmax/newmax);
+                board.repaint();
+            }catch(Exception d){
+                return;
+            }
             return;
         }
     }
@@ -121,6 +134,12 @@ public class GUI extends JFrame implements ActionListener{
         }
         public void setMaze(Maze maze){
             this.maze = maze;
+        }
+        public void setCellLength(int cellLength){
+            this.cellLength = cellLength;
+        }
+        public int getCellLength(){
+            return this.cellLength;
         }
     }
 }
