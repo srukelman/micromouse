@@ -51,11 +51,11 @@ public class MazeSolver {
                     q.add(x);
                     x = (i * 10) + j;
                     maze.setCell(j, i+1, x+11);
-                }else if(maze.getCell(j, i-1) == 3){
-                    int x = ((i-1)*10) + j;
+                }else if(maze.getCell(j, i+1) == 3){
+                    int x = ((i+1)*10) + j;
                     solution.push(x);
                     x = (i * 10) + j;
-                    maze.setCell(j, i-1, x+11);
+                    maze.setCell(j, i+1, x+11);
                 }
             }
             if(j < maze.getWidth() -1){
@@ -64,11 +64,11 @@ public class MazeSolver {
                     q.add(x);
                     x = (i * 10) + j;
                     maze.setCell(j+1, i, x+11);
-                }else if(maze.getCell(j, i-1) == 3){
-                    int x = ((i-1)*10) + j;
+                }else if(maze.getCell(j + 1, i) == 3){
+                    int x = (i*10) + j + 1;
                     solution.push(x);
                     x = (i * 10) + j;
-                    maze.setCell(j, i-1, x+11);
+                    maze.setCell(j + 1, i, x+11);
                 }
             }
             if(i > 0){
@@ -90,15 +90,25 @@ public class MazeSolver {
                     q.add(x);
                     x = (i * 10) + j;
                     maze.setCell(j-1, i, x+11);
-                }else if(maze.getCell(j, i-1) == 3){
-                    int x = ((i-1)*10) + j;
+                }else if(maze.getCell(j - 1, i) == 3){
+                    int x = (i*10) + j - 1;
                     solution.push(x);
                     x = (i * 10) + j;
-                    maze.setCell(j, i-1, x+11);
+                    maze.setCell(j-1, i, x+11);
                 }
             }
+            q.remove();
+            //System.out.println(q);
 
         }
+        while(solution.peek() != null && solution.peek() != 2){
+            int x = solution.peek() - 11;
+            int j = x % 10;
+            int i = x / 10;
+            System.out.println(solution);
+            solution.push(maze.getCell(j, i));
+        }
+        System.out.println(solution);
     }   
 
 }
