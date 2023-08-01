@@ -2,9 +2,11 @@ import java.io.File;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
+import java.util.Stack;
 
 public class MazeSolver {
     private Maze maze;
+    private Stack<Integer> solution = new Stack<Integer>();
     private int start = 0;
 
     public MazeSolver(String filename){
@@ -43,40 +45,60 @@ public class MazeSolver {
         while(q.peek() != null){
             int i = q.peek()/10;
             int j = q.peek()%10;
-            if(i > 0){
-                if(maze.getCell(i-1, j) == 0){
-                    int x = ((i-1)*10) + j;
-                    q.add(x);
-                    x = (i * 10) + j;
-                    maze.setCell(i-1, j, x-11);
-                }
-            }
             if(i < maze.getHeight() - 1){
-                if(maze.getCell(i+1, j) == 0){
+                if(maze.getCell(j, i+1) == 0){
                     int x = ((i+1) * 10) + j;
                     q.add(x);
                     x = (i * 10) + j;
-                    maze.setCell(i+1, j, x-11);
-                }
-            }
-            if(j > 0){
-                if(maze.getCell(i, j-1) == 0){
-                    int x = (i * 10) + j - 1;
-                    q.add(x);
+                    maze.setCell(j, i+1, x+11);
+                }else if(maze.getCell(j, i-1) == 3){
+                    int x = ((i-1)*10) + j;
+                    solution.push(x);
                     x = (i * 10) + j;
-                    maze.setCell(i, j-1, x-11);
+                    maze.setCell(j, i-1, x+11);
                 }
             }
             if(j < maze.getWidth() -1){
-                if(maze.getCell(i, j+1) == 0){
+                if(maze.getCell(j+1, i) == 0){
                     int x = (i * 10) + j + 1;
                     q.add(x);
                     x = (i * 10) + j;
-                    maze.setCell(i, j+1, x-11);
+                    maze.setCell(j+1, i, x+11);
+                }else if(maze.getCell(j, i-1) == 3){
+                    int x = ((i-1)*10) + j;
+                    solution.push(x);
+                    x = (i * 10) + j;
+                    maze.setCell(j, i-1, x+11);
+                }
+            }
+            if(i > 0){
+                if(maze.getCell(j, i-1) == 0){
+                    int x = ((i-1)*10) + j;
+                    q.add(x);
+                    x = (i * 10) + j;
+                    maze.setCell(j, i-1, x+11);
+                }else if(maze.getCell(j, i-1) == 3){
+                    int x = ((i-1)*10) + j;
+                    solution.push(x);
+                    x = (i * 10) + j;
+                    maze.setCell(j, i-1, x+11);
+                }
+            }
+            if(j > 0){
+                if(maze.getCell(j-1, i) == 0){
+                    int x = (i * 10) + j - 1;
+                    q.add(x);
+                    x = (i * 10) + j;
+                    maze.setCell(j-1, i, x+11);
+                }else if(maze.getCell(j, i-1) == 3){
+                    int x = ((i-1)*10) + j;
+                    solution.push(x);
+                    x = (i * 10) + j;
+                    maze.setCell(j, i-1, x+11);
                 }
             }
 
         }
-    }
+    }   
 
 }
