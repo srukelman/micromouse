@@ -3,11 +3,16 @@ import java.io.IOException;
 import java.io.FileWriter;
 
 public class Maze {
-    private int[][] maze;
+    private Cell[][] maze;
     public Maze(int width, int height){
-        this.maze = new int[height][width];
+        this.maze = new Cell[height][width];
+        for(int i = 0; i < height; i++){
+            for(int j = 0; j < width; j++){
+                maze[]
+            }
+        }
     }
-    public Maze(int[][] maze){
+    public Maze(Cell[][] maze){
         this.maze = maze;
     }
 
@@ -29,7 +34,7 @@ public class Maze {
             for(int i = 0; i < getHeight(); i++){
                 String s = "";
                 for(int j = 0; j < getWidth(); j++){
-                    s += "" + getCell(j, i)+",";
+                    s += "" + getCell(j, i).getValue()+",";
                 }
                 s+="\n";
                 fw.write(s);
@@ -52,7 +57,7 @@ public class Maze {
     public void updateCell(int x, int y){
         if(x <= maze[0].length && y<= maze.length){
             //0: open; 1: closed; 2: start; 3: end
-            maze[y][x] = (maze[y][x] + 1)  % 4;
+            maze[y][x].setValue((maze[y][x].getValue() + 1)  % 4);
         }
     }
 
@@ -66,9 +71,9 @@ public class Maze {
     public void updateCell(int x, int y, int val){
         if(x <= maze[0].length && y<= maze.length){
             //0: open; 1: closed; 2: start; 3: end
-            maze[y][x] = (maze[y][x] + val) % 4;
-            while(maze[y][x] < 0){
-                maze[y][x] += 4;
+            maze[y][x].setValue((maze[y][x].getValue() + val) % 4);
+            while(maze[y][x].getValue() < 0){
+                maze[y][x].setValue(maze[y][x].getValue() + 4);
             }
         }
     }
@@ -83,7 +88,7 @@ public class Maze {
     public void setCell(int x, int y, int val){
         if(x <= maze[0].length && y<= maze.length){
             //0: open; 1: closed; 2: start; 3: end
-            maze[y][x] = val;
+            maze[y][x].setValue(val);
         }
     }
 
@@ -118,9 +123,9 @@ public class Maze {
      */
     public void updateSize(int newHeight, int newWidth, boolean blank){
         if(blank){
-            this.maze = new int[newHeight][newWidth];
+            this.maze = new Cell[newHeight][newWidth];
         }else{
-            int[][] temp = new int[newHeight][newWidth];
+            Cell[][] temp = new Cell[newHeight][newWidth];
             int h = (newHeight < getHeight())?newHeight:getHeight();
             int w = (newWidth < getWidth())?newWidth:getWidth();
             for(int i = 0; i < h; i++){
@@ -138,7 +143,7 @@ public class Maze {
      * @param newWidth the number of cells in the width of the new maze
      */
     public void updateSize(int newHeight, int newWidth){
-        this.maze = new int[newHeight][newWidth];
+        this.maze = new Cell[newHeight][newWidth];
     }
 
     /**
@@ -146,7 +151,7 @@ public class Maze {
      * Clears the maze, replacing all cells with empty cells
      */
     public void clearMaze(){
-        this.maze = new int[getHeight()][getWidth()];
+        this.maze = new Cell[getHeight()][getWidth()];
     }
 
 }
