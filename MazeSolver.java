@@ -1,7 +1,5 @@
 import java.io.File;
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
 import java.util.Scanner;
 import java.util.Stack;
@@ -35,6 +33,7 @@ public class MazeSolver {
                     }
                 }
             }
+            scan.close();
             return arr;
             
         }catch(Exception e){
@@ -84,6 +83,7 @@ public class MazeSolver {
         }
         while(solution.peek().getPrevCell() != null){
             solution.push(solution.peek().getPrevCell());
+            System.out.println(solution.peek());
         }
         System.out.println(solution);
     }   
