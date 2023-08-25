@@ -28,7 +28,7 @@ public class MazeSolver {
                 for(int j = 0; j < temp.length; j++){
                     arr[i][j].setValue(Integer.parseInt(temp[j]));
                     if(arr[i][j].getValue() % 4 == 2){
-                        this.start = new Cell(j, i);
+                        this.start = new Cell(j, i, 2);
                     }
                 }
             }
@@ -37,14 +37,39 @@ public class MazeSolver {
         }catch(Exception e){
             System.out.println("error or sumtthin");
             System.out.println(e);
-            return new int[1][1];
+            return new Cell[1][1];
         }  
     }
     public void solveMaze(){
-        Queue<List<Integer>> q = new LinkedList<>();
+        Queue<Cell> q = new LinkedList<>();
+        int goalX = -1;
+        int goalY = -1;
         while(q.peek() != null){
-            
-
+            if(q.peek().getValue() == 3){
+                goalX = q.peek().getX();
+                goalY = q.peek().getY();
+                break;
+            }
+            int x = q.peek().getX();
+            int y = q.peek().getY();
+            q.peek().visit();
+            if(maze.getCell(x-1, y).getValue() == 0){
+                q.add(maze.getCell(x-1, y));
+                maze.getCell(x-1, y).setPrevCell(q.peek());
+            }
+            if (maze.getCell(x, y-1).getValue() == 0){
+                q.add(maze.getCell(x, y-1));
+                maze.getCell(x, y-1).setPrevCell(q.peek());
+            }
+            if(maze.getCell(x + 1, y).getValue() == 0){
+                q.add(maze.getCell(x + 1, y));
+                maze.getCell(x + 1, y).setPrevCell(q.peek());
+            }
+            if(maze.getCell(x, y+1).getValue() == 0){
+                q.add(maze.getCell(x, y+1));
+                maze.getCell(x, y+1).setPrevCell(q.peek());
+            }
+            q.remove();
         }
         maze.writeMaze();
         while(solution.peek().getPrevCell() != null){

@@ -87,7 +87,7 @@ public class GUI extends JFrame implements ActionListener{
             for(int i = 0; i < maze.getHeight(); i++){
                 for(int j = 0; j < maze.getWidth(); j++){
                     Color color = Color.WHITE;
-                    switch(maze.getCell(j, i)){
+                    switch(maze.getCell(j, i).getValue()){
                         case 0: color = Color.WHITE; break;
                         case 1: color = Color.BLACK; break;
                         case 2: color = Color.GREEN; break;

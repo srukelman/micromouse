@@ -1,6 +1,7 @@
 public class Cell {
     private Cell prevCell;
     private int value, x, y;
+    private boolean visited;
     /**
      * 
      * @param value takes int value of value
@@ -9,6 +10,7 @@ public class Cell {
     public Cell(int value, Cell prevCell){
         this.value = value;
         this.prevCell = prevCell;
+        this.visited = false;
     }
     /**
      * <p>
@@ -19,8 +21,22 @@ public class Cell {
         this.value = 0;
         this.x = 0;
         this.y = 0;
+        this.visited = false;
     }
-    public void getX(){
+    /**
+     * 
+     * @param x takes int x coordinate
+     * @param y takes int y coordinate
+     * @param value takes int value of value
+     */
+    public Cell(int x, int y, int value){
+        this.prevCell = null;
+        this.value = 0;
+        this.x = 0;
+        this.y = 0;
+        this.visited = false;
+    }
+    public int getX(){
         return this.x;
     }
     public int getY(){
@@ -43,5 +59,11 @@ public class Cell {
     }
     public Cell getPrevCell(){
         return this.prevCell;
+    }
+    public void visit(){
+        this.visited = true;
+    }
+    public boolean isVisited(){
+        return this.visited;
     }
 }

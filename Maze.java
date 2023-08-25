@@ -8,7 +8,7 @@ public class Maze {
         this.maze = new Cell[height][width];
         for(int i = 0; i < height; i++){
             for(int j = 0; j < width; j++){
-                maze[]
+                maze[i][j] = new Cell(j, i, 0);
             }
         }
     }
@@ -97,7 +97,7 @@ public class Maze {
      * @param y the y-value of the cell
      * @return the value of the cell specified (0=open, 1=closed, 2=start, 3=end)
      */
-    public int getCell(int x, int y){
+    public Cell getCell(int x, int y){
         return maze[y][x];
     }
 
