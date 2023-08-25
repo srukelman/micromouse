@@ -32,8 +32,8 @@ public class Cell {
     public Cell(int x, int y, int value){
         this.prevCell = null;
         this.value = 0;
-        this.x = 0;
-        this.y = 0;
+        this.x = x;
+        this.y = y;
         this.visited = false;
     }
     public int getX(){

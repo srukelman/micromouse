@@ -154,4 +154,17 @@ public class Maze {
         this.maze = new Cell[getHeight()][getWidth()];
     }
 
+    @Override
+    public String toString(){
+        String s = "";
+        for(int i = 0; i < getHeight(); i++){
+                
+                for(int j = 0; j < getWidth(); j++){
+                    s += "" + getCell(j, i).getValue()+",";
+                }
+                s+="\n";
+        }
+        return s;
+    }
+
 }
