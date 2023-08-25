@@ -12,9 +12,11 @@ public class MazeSolver {
     private Cell start;
     public MazeSolver(String filename){
         this.maze = new Maze(loadMaze(filename));
+        System.out.println("maze loaded " + maze.getHeight() + "x" + maze.getWidth());
     }
     public MazeSolver(){
         this.maze = new Maze(loadMaze(".\\mazes\\maze0.txt"));
+        System.out.println("maze loaded " + maze.getHeight() + "x" + maze.getWidth());
     }
     private Cell[][] loadMaze(String FileName){
         try{
@@ -26,6 +28,7 @@ public class MazeSolver {
             for(int i = 0; i < h; i++){
                 String[] temp = scan.nextLine().split(",");
                 for(int j = 0; j < temp.length; j++){
+                    arr[i][j] = new Cell(j, i, 0);
                     arr[i][j].setValue(Integer.parseInt(temp[j]));
                     if(arr[i][j].getValue() % 4 == 2){
                         this.start = new Cell(j, i, 2);
@@ -35,43 +38,44 @@ public class MazeSolver {
             return arr;
             
         }catch(Exception e){
-            System.out.println("error or sumtthin");
+            System.out.println("maze could not be loaded " +e);
             System.out.println(e);
             return new Cell[1][1];
         }  
     }
     public void solveMaze(){
         Queue<Cell> q = new LinkedList<>();
-        int goalX = -1;
-        int goalY = -1;
+        q.add(start);
         while(q.peek() != null){
             if(q.peek().getValue() == 3){
-                goalX = q.peek().getX();
-                goalY = q.peek().getY();
+                solution.push(q.peek());
                 break;
             }
             int x = q.peek().getX();
             int y = q.peek().getY();
-            q.peek().visit();
-            if(maze.getCell(x-1, y).getValue() == 0){
+            if(x > 0 && maze.getCell(x-1, y).getValue() == 0 && maze.getCell(x-1,y).isVisited() == false){
                 q.add(maze.getCell(x-1, y));
                 maze.getCell(x-1, y).setPrevCell(q.peek());
+                maze.getCell(x-1, y).visit();
             }
-            if (maze.getCell(x, y-1).getValue() == 0){
+            if (y > 0 && maze.getCell(x, y-1).getValue() == 0 && maze.getCell(x,y-1).isVisited() == false){
                 q.add(maze.getCell(x, y-1));
                 maze.getCell(x, y-1).setPrevCell(q.peek());
+                maze.getCell(x, y-1).visit();
             }
-            if(maze.getCell(x + 1, y).getValue() == 0){
+            if(x < maze.getWidth() - 1 && maze.getCell(x + 1, y).getValue() == 0 && maze.getCell(x+1,y).isVisited() == false){
                 q.add(maze.getCell(x + 1, y));
                 maze.getCell(x + 1, y).setPrevCell(q.peek());
+                maze.getCell(x + 1, y).visit();
             }
-            if(maze.getCell(x, y+1).getValue() == 0){
+            if(y < maze.getHeight() - 1 && maze.getCell(x, y+1).getValue() == 0 && maze.getCell(x,y+1).isVisited() == false){
                 q.add(maze.getCell(x, y+1));
                 maze.getCell(x, y+1).setPrevCell(q.peek());
+                maze.getCell(x, y+1).visit();
             }
+            System.out.println(q.peek());
             q.remove();
         }
-        maze.writeMaze();
         while(solution.peek().getPrevCell() != null){
             solution.push(solution.peek().getPrevCell());
         }

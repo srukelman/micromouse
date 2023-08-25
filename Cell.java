@@ -66,4 +66,8 @@ public class Cell {
     public boolean isVisited(){
         return this.visited;
     }
+    @Override
+    public String toString(){
+        return this.x + ", " + this.y;
+    }
 }
