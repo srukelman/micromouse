@@ -72,7 +72,6 @@ public class GUI extends JFrame implements ActionListener{
 
     private class Board extends JPanel implements MouseListener{
         private Maze maze;
-        private int pixWidth, pixHeight;
         private int cellLength;
         public Board(int cellWidth, int cellHeight){
             setSize(new Dimension(600, 600));
