@@ -55,39 +55,37 @@ public class MazeSolver {
             int x = q.peek().getX();
             int y = q.peek().getY();
             System.out.println("checking " + q.peek());
-            if(x > 0 && maze.getCell(x-1, y).getValue()  % 2 != 0 && maze.getCell(x-1,y).isVisited() == false){
+            if(x > 0 && (maze.getCell(x-1, y).getValue()  == 0 || maze.getCell(x-1, y).getValue() == 3)&& maze.getCell(x-1,y).isVisited() == false){
                 q.add(maze.getCell(x-1, y));
                 maze.getCell(x-1, y).setPrevCell(maze.getCell(x, y));
                 maze.getCell(x-1, y).visit();
-                System.out.println("added " + maze.getCell(x-1, y));
+                //System.out.println("added " + maze.getCell(x-1, y));
             }
-            if (y > 0 && maze.getCell(x, y-1).getValue() % 2 != 0 && maze.getCell(x,y-1).isVisited() == false){
+            if (y > 0 && (maze.getCell(x, y-1).getValue() == 0 || maze.getCell(x, y-1).getValue() == 3) && maze.getCell(x,y-1).isVisited() == false){
                 q.add(maze.getCell(x, y-1));
                 maze.getCell(x, y-1).setPrevCell(maze.getCell(x, y));
                 maze.getCell(x, y-1).visit();
-                System.out.println("added " + maze.getCell(x, y-1));
+                //System.out.println("added " + maze.getCell(x, y-1));
             }
-            if(x < maze.getWidth() - 1 && maze.getCell(x + 1, y).getValue() % 2 != 0 && maze.getCell(x+1,y).isVisited() == false){
+            if(x < maze.getWidth() - 1 && (maze.getCell(x + 1, y).getValue() == 0 || maze.getCell(x + 1, y).getValue() == 3) && maze.getCell(x+1,y).isVisited() == false){
                 q.add(maze.getCell(x + 1, y));
                 maze.getCell(x + 1, y).setPrevCell(maze.getCell(x, y));
                 maze.getCell(x + 1, y).visit();
-                System.out.println("added " + maze.getCell(x + 1, y));
+                //System.out.println("added " + maze.getCell(x + 1, y));
             }
-            if(y < maze.getHeight() - 1 && maze.getCell(x, y+1).getValue() % 2 != 0 && maze.getCell(x,y+1).isVisited() == false){
+            if(y < maze.getHeight() - 1 && (maze.getCell(x, y + 1).getValue() == 0 || maze.getCell(x, y + 1).getValue() == 3) && maze.getCell(x,y+1).isVisited() == false){
                 q.add(maze.getCell(x, y+1));
                 maze.getCell(x, y+1).setPrevCell(maze.getCell(x, y));
                 maze.getCell(x, y+1).visit();
-                System.out.println("added " + maze.getCell(x, y+1));
+                //System.out.println("added " + maze.getCell(x, y+1));
             }
             q.remove();
         }
-        System.out.println(q);
+        //System.out.println(q);
         while(solution.peek().getPrevCell() != null){
-            System.out.println(solution.peek().getPrevCell());
             int x = solution.peek().getPrevCell().getX();
             int y = solution.peek().getPrevCell().getY();
             solution.push(maze.getCell(x, y));
-            System.out.println(solution.peek());
         }
         System.out.println(solution);
     }   
