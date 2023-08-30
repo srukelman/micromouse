@@ -21,7 +21,7 @@ public class Maze {
      * exports the contents of the maze to a txt file
      * @return True = wrote maze correctly False = something went wrong
      */
-    public boolean writeMaze(){
+    public File writeMaze(){
         int count = 0;
         File myObj = new File(".\\mazes\\maze" + count + ".txt");
         try{
@@ -40,10 +40,10 @@ public class Maze {
                 fw.write(s);
             }
             fw.close();
-            return true;
+            return myObj;
         }catch(IOException e){
             System.out.println("error");
-            return false;
+            return myObj;
         }
         
     }

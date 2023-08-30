@@ -1,6 +1,10 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
+import java.io.File;
+import java.util.Scanner;
+import java.util.Stack;
+
 import javax.swing.*;
 
 
@@ -8,7 +12,7 @@ public class GUI extends JFrame implements ActionListener{
     private Board board;
     
     private int lineThickness = 2;
-    private JButton saveButton, changeButton, clearButton;
+    private JButton saveButton, changeButton, clearButton, solveButton;
     private JTextField widthField, heightField;
     private JLabel wLabel, hLabel;
     public GUI(){
@@ -31,8 +35,10 @@ public class GUI extends JFrame implements ActionListener{
         botPanel.setLayout(new FlowLayout());
         botPanel.add(clearButton = new JButton("Clear"));
         botPanel.add(saveButton = new JButton("Save"));
+        botPanel.add(solveButton = new JButton("Solve"));
         clearButton.addActionListener(this);
         saveButton.addActionListener(this);
+        solveButton.addActionListener(this);
         add(botPanel, BorderLayout.SOUTH);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(750, 750);
@@ -52,13 +58,37 @@ public class GUI extends JFrame implements ActionListener{
             board.repaint();
             return;
         }
+        if(e.getSource() == solveButton){
+            System.out.println("solving");
+            File h = maze.writeMaze();
+            MazeSolver m = new MazeSolver(h.getAbsolutePath());
+            File f = m.solveMaze();
+            try{
+                Scanner scan  = new Scanner(f);
+                while(scan.hasNextLine()){
+                    String[] temp = scan.nextLine().split(" ");
+                    String type = temp[0];
+                    int x = Integer.parseInt(temp[1].split(",")[0]);
+                    int y = Integer.parseInt(temp[1].split(",")[1]);
+                    switch(type){
+                        case "adding": maze.updateCell(x, y, 5); break;
+                        case "checking": maze.updateCell(x, y, 6); break;
+                        case "solving": maze.updateCell(x, y, 4); break;
+                    }
+                }
+            }catch(Exception d){
+                System.out.println("error reading file");
+            }
+
+            return;
+        }
         if(e.getSource() == changeButton){
             try{
                 int oldmax = Math.max(maze.getHeight(), maze.getWidth());
                 int newWidth = Integer.parseInt(widthField.getText());
                 int newHeight = Integer.parseInt(heightField.getText());
                 int newmax = Math.max(newHeight, newWidth);
-                maze.updateSize(newHeight, newWidth, true);
+                maze.updateSize(newHeight, newWidth, false);
                 board.setMaze(maze);
                 board.setCellLength(board.getCellLength()*oldmax/newmax);
                 board.repaint();
@@ -91,6 +121,9 @@ public class GUI extends JFrame implements ActionListener{
                         case 1: color = Color.BLACK; break;
                         case 2: color = Color.GREEN; break;
                         case 3: color = Color.RED; break;
+                        case 4: color = Color.BLUE; break;
+                        case 5: color = Color.YELLOW; break;
+                        case 6: color = Color.MAGENTA; break;
                     }
                     g2d.setPaint(color);
                     g2d.fill(new Rectangle2D.Double(75+ j*cellLength, i*cellLength, cellLength, cellLength));
