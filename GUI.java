@@ -61,23 +61,18 @@ public class GUI extends JFrame implements ActionListener{
         if(e.getSource() == solveButton){
             System.out.println("solving");
             File h = maze.writeMaze();
-            MazeSolver m = new MazeSolver(h.getAbsolutePath());
-            File f = m.solveMaze();
-            try{
-                Scanner scan  = new Scanner(f);
-                while(scan.hasNextLine()){
-                    String[] temp = scan.nextLine().split(" ");
-                    String type = temp[0];
-                    int x = Integer.parseInt(temp[1].split(",")[0]);
-                    int y = Integer.parseInt(temp[1].split(",")[1]);
-                    switch(type){
-                        case "adding": maze.updateCell(x, y, 5); break;
-                        case "checking": maze.updateCell(x, y, 6); break;
-                        case "solving": maze.updateCell(x, y, 4); break;
-                    }
+            MazeSolver m = new BFSSolver(h.getAbsolutePath());
+            String[] solution = m.solve();
+            for (String s: solution){
+                String[] temp = s.split(" ");
+                String type = temp[0];
+                int x = Integer.parseInt(temp[1].split(",")[0]);
+                int y = Integer.parseInt(temp[1].split(",")[1]);
+                switch(type){
+                    case "adding": maze.updateCell(x, y, 5); break;
+                    case "checking": maze.updateCell(x, y, 6); break;
+                    case "solving": maze.updateCell(x, y, 4); break;
                 }
-            }catch(Exception d){
-                System.out.println("error reading file");
             }
 
             return;

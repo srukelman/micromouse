@@ -3,9 +3,9 @@ import java.util.LinkedList;
 import java.util.Scanner;
 
 public abstract class MazeSolver {
-    private Maze maze;
-    private LinkedList<Cell> path;
-    private Cell start;
+    protected Maze maze;
+    protected LinkedList<Cell> path;
+    protected Cell start;
 
     public MazeSolver(Maze maze, Cell start) {
         this.maze = maze;
