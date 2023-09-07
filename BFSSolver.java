@@ -25,7 +25,7 @@ public class BFSSolver extends MazeSolver{
             }
             int x = q.peek().getX();
             int y = q.peek().getY();
-            System.out.println("checking " + q.peek());
+            //System.out.println("checking " + q.peek());
             s += "checking " + q.peek() + "\n";
             solution.add("checking " + q.peek());
             if(x > 0 && (maze.getCell(x-1, y).getValue()  == 0 || maze.getCell(x-1, y).getValue() == 3)&& maze.getCell(x-1,y).isVisited() == false){
@@ -62,13 +62,11 @@ public class BFSSolver extends MazeSolver{
             }
             q.remove();
         }
-        System.out.println(q);
         while(path.peek().getPrevCell() != null){
             int x = path.peek().getPrevCell().getX();
             int y = path.peek().getPrevCell().getY();
             path.push(maze.getCell(x, y));
         }
-        System.out.println(solution);
         while(!path.isEmpty()){
             //System.out.println(solution.pop());
             solution.add("solving " + path.pop());
