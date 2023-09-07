@@ -116,4 +116,45 @@ public class MazeSolver {
         }
         return f;
     }   
+    public File AStarSolveMaze(){
+        String s = "";
+        File f = new File(".\\solutions\\solution0.txt");
+        try{
+            int count = 0;
+            while(!f.createNewFile()){
+                count++;
+                f = new File(".\\solutions\\solution" + count + ".txt");
+            }
+            FileWriter fw = new FileWriter(f);
+            fw.write(s);
+            fw.close();
+        }catch(Exception e){
+            System.out.println("error writing to file");
+        }
+        return f;
+    }
+    //given start is in top left and end in bottom right
+    //chooses to go right or down when possible
+    public File GreedySolveMaze(int endX, int endY){
+        String s = "";
+        File f = new File(".\\solutions\\solution0.txt");
+        LinkedList<Cell> q = new LinkedList<>();
+        q.add(start);
+        while(!q.isEmpty()){
+            
+        }
+        try{
+            int count = 0;
+            while(!f.createNewFile()){
+                count++;
+                f = new File(".\\solutions\\solution" + count + ".txt");
+            }
+            FileWriter fw = new FileWriter(f);
+            fw.write(s);
+            fw.close();
+        }catch(Exception e){
+            System.out.println("error writing to file");
+        }
+        return f;
+    }
 }
