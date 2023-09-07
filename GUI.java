@@ -66,29 +66,23 @@ public class GUI extends JFrame implements ActionListener{
             File h = maze.writeMaze();
             MazeSolver m = new BFSSolver(h.getAbsolutePath());
             String[] solution = m.solve();
-            int timerDelay = 20;
             System.out.println(solution);
             for (String s: solution){
-                new Timer(timerDelay, new ActionListener()  
-               {
-                    public void actionPerformed(ActionEvent e) {
-                        String[] temp = s.split(" ");
-                        String type = temp[0];
-                        int x = Integer.parseInt(temp[1].split(",")[0]);
-                        int y = Integer.parseInt(temp[1].split(",")[1]);
-                        switch(type){
-                            case "adding": maze.setCell(x, y, 5); break;
-                            case "checking": maze.setCell(x, y, 6); break;
-                            case "solving": maze.setCell(x, y, 4); break;
-                        }
-                        board.repaint();
-                    }
-                }).start();
-                
-                
-                
+                String[] temp = s.split(" ");
+                String type = temp[0];
+                int x = Integer.parseInt(temp[1].split(",")[0]);
+                int y = Integer.parseInt(temp[1].split(",")[1]);
+                switch(type){
+                    case "added": maze.setCell(x, y, 5); break;
+                    case "checking": maze.setCell(x, y, 6); break;
+                    case "solving": maze.setCell(x, y, 4); break;
+                }
+                board.updateBoard();
+                try{
+                    
+                }catch(Exception d){}
             }
-
+            board.repaint();
             return;
         }
         if(e.getSource() == changeButton){
@@ -111,8 +105,8 @@ public class GUI extends JFrame implements ActionListener{
             int returnVal = fc.showOpenDialog(this);
             if(returnVal == JFileChooser.APPROVE_OPTION){
                 File f = fc.getSelectedFile();
-                Maze m = new Maze(f.getAbsolutePath());
-                board.setMaze(m);
+                Maze temp = new Maze(f.getAbsolutePath());
+                board.setMaze(temp);
                 board.repaint();
             }
         }
@@ -128,7 +122,16 @@ public class GUI extends JFrame implements ActionListener{
             addMouseListener(this);
             this.cellLength = getWidth()/cellWidth;
         }
-
+        public final Runnable repaintRunnable = new Runnable(){
+            @Override
+            public void run(){
+                System.out.println("repainting");
+                repaint();
+            }
+        };
+        public void updateBoard(){
+            SwingUtilities.invokeAndWait(board.repaintRunnable);
+        }
         public void paintComponent(Graphics g){
             System.out.println("painting");
             super.paintComponent(g);
