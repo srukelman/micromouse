@@ -4,6 +4,7 @@ import java.awt.geom.*;
 import java.io.File;
 import java.util.Scanner;
 import java.util.Stack;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.*;
 
@@ -12,7 +13,7 @@ public class GUI extends JFrame implements ActionListener{
     private Board board;
     
     private int lineThickness = 2;
-    private JButton saveButton, changeButton, clearButton, solveButton;
+    private JButton saveButton, changeButton, clearButton, solveButton, loadButton;
     private JTextField widthField, heightField;
     private JLabel wLabel, hLabel;
     public GUI(){
@@ -35,10 +36,12 @@ public class GUI extends JFrame implements ActionListener{
         botPanel.setLayout(new FlowLayout());
         botPanel.add(clearButton = new JButton("Clear"));
         botPanel.add(saveButton = new JButton("Save"));
+        botPanel.add(loadButton = new JButton("Load"));
         botPanel.add(solveButton = new JButton("Solve"));
         clearButton.addActionListener(this);
         saveButton.addActionListener(this);
         solveButton.addActionListener(this);
+        loadButton.addActionListener(this);
         add(botPanel, BorderLayout.SOUTH);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(750, 750);
@@ -69,10 +72,17 @@ public class GUI extends JFrame implements ActionListener{
                 int x = Integer.parseInt(temp[1].split(",")[0]);
                 int y = Integer.parseInt(temp[1].split(",")[1]);
                 switch(type){
-                    case "adding": maze.updateCell(x, y, 5); break;
-                    case "checking": maze.updateCell(x, y, 6); break;
-                    case "solving": maze.updateCell(x, y, 4); break;
+                    case "adding": maze.setCell(x, y, 5); break;
+                    case "checking": maze.setCell(x, y, 6); break;
+                    case "solving": maze.setCell(x, y, 4); break;
                 }
+                board.repaint();
+                try{
+                    Thread.sleep(500);
+                }catch(InterruptedException d){
+                    System.out.println("interrupted");
+                }
+                
             }
 
             return;
@@ -91,6 +101,16 @@ public class GUI extends JFrame implements ActionListener{
                 return;
             }
             return;
+        }
+        if(e.getSource() == loadButton){
+            final JFileChooser fc = new JFileChooser(".\\mazes\\");
+            int returnVal = fc.showOpenDialog(this);
+            if(returnVal == JFileChooser.APPROVE_OPTION){
+                File f = fc.getSelectedFile();
+                Maze m = new Maze(f.getAbsolutePath());
+                board.setMaze(m);
+                board.repaint();
+            }
         }
     }
 
@@ -139,10 +159,10 @@ public class GUI extends JFrame implements ActionListener{
             int xpos=(e.getX()-75)/cellLength;
             int ypos=e.getY()/cellLength;
             if(SwingUtilities.isLeftMouseButton(e)){
-                System.out.println(xpos+", "+ypos);
+                //System.out.println(xpos+", "+ypos);
                 maze.updateCell(xpos, ypos);
             }else if(SwingUtilities.isRightMouseButton(e)){
-                System.out.println(xpos+", "+ypos);
+                //System.out.println(xpos+", "+ypos);
                 maze.updateCell(xpos, ypos, -1);
             }
             repaint();

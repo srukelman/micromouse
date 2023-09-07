@@ -69,8 +69,9 @@ public class BFSSolver extends MazeSolver{
         }
         while(!path.isEmpty()){
             //System.out.println(solution.pop());
-            solution.add("solving " + path.pop());
-            s += "solving " + path.pop() + "\n";
+            Cell curr = path.pop();
+            solution.add("solving " + curr);
+            s += "solving " + curr + "\n";
         }
         try{
             int count = 0;
