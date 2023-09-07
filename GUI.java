@@ -78,7 +78,8 @@ public class GUI extends JFrame implements ActionListener{
                 }
                 board.repaint();
                 try{
-                    Thread.sleep(500);
+                    System.out.println("sleeping");
+                    TimeUnit.SECONDS.sleep(1);
                 }catch(InterruptedException d){
                     System.out.println("interrupted");
                 }
@@ -126,6 +127,7 @@ public class GUI extends JFrame implements ActionListener{
         }
 
         public void paintComponent(Graphics g){
+            System.out.println("painting");
             super.paintComponent(g);
             Graphics2D g2d= (Graphics2D) g;
             for(int i = 0; i < maze.getHeight(); i++){
