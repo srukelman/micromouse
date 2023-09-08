@@ -130,7 +130,7 @@ public class GUI extends JFrame implements ActionListener{
             }
         };
         public void updateBoard(){
-            SwingUtilities.invokeAndWait(board.repaintRunnable);
+            SwingUtilities.invokeLater(board.repaintRunnable);
         }
         public void paintComponent(Graphics g){
             System.out.println("painting");
