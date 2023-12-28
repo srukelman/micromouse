@@ -1,3 +1,5 @@
+package javaver;
+
 public class Cell {
     private Cell prevCell;
     private int value, x, y;
