@@ -12,7 +12,7 @@ class BFS_Solver:
         self._path = []
         self._steps = []
 
-    def solve(self) -> (list[Cell], list[str]):
+    def solve(self) -> list[str]:
         q = deque()
         sol = []
         q.add(self._start)
@@ -33,8 +33,9 @@ class BFS_Solver:
         if not self._finish:
             return None
         else:
-            self._path = self._get_path()
-            return self._path, sol
+            path = self._get_path()
+            for cell in path:
+                sol.append('solving ' + str(cell))
         
     def _get_path(self) -> list[Cell]:
         path = []

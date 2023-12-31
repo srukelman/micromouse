@@ -1,6 +1,7 @@
 import pygame
 from cell import Cell
 from maze import Maze
+from bfs_solver import BFS_Solver
 
 COLORS = {
     1: (0, 0, 0), # black - wall
@@ -29,11 +30,13 @@ class View:
         self._draw()
         pygame.display.set_caption('Maze Solver')
         clock = pygame.time.Clock()
-        while self._running and self._index < len(self._solution):
+        while self._running and (not self._solution or self._index < len(self._solution)):
             clock.tick(1)
             self._handle_events()
             if self._solving:
-                _update_maze(self._solution[self._index])
+                self._update_maze()
+                self._index += 1
+                self._draw()
         pygame.quit()
 
     def _handle_events(self):
@@ -45,10 +48,14 @@ class View:
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     self._index = 0
-                    self._solving = True
+                    if self._solution:
+                        self._solving = True
+                        print('solving')
                 elif event.key == pygame.K_RETURN:
                     self._solving = False
 
+    def solve(self) -> None:
+        self._solution = BFS_Solver(self._maze).solve()
 
     def _draw(self) -> None:
         self._screen.fill((150, 150, 150)) # gray background color
@@ -64,7 +71,15 @@ class View:
     def _resize_surface(self, size: tuple[int, int]) -> None:
         pygame.display.set_mode(size, pygame.RESIZABLE)
 
-    def _update_maze(self, cell: Cell) -> None:
+    def _update_maze(self) -> None:
+        up, cell = self._solution[self._index].split()
+        cell = self._maze.get_cell(int(cell[1]), int(cell[3]))
+        if up == 'added':
+            cell.set_value(6)
+        elif up == 'visited':
+            cell.set_value(5)
+        elif up == 'solving':
+            cell.set_value(4)
         self._draw_cell(cell)
         pygame.display.flip()
         self._index += 1

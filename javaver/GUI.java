@@ -80,11 +80,12 @@ public class GUI extends JFrame implements ActionListener{
                     case "solving": maze.setCell(x, y, 4); break;
                 }
                 board.updateBoard();
+                board.repaint();
                 try{
-                    
+                    Thread.sleep(100);
                 }catch(Exception d){}
             }
-            board.repaint();
+            
             return;
         }
         if(e.getSource() == changeButton){
