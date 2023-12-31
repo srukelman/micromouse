@@ -26,3 +26,9 @@ class Cell:
 
     def __str__(self) -> str:
         return f"({self._x}, {self._y})"
+    
+    def copy(self):
+        if self._prev_cell:
+            return Cell(self._x, self._y, self._value, self._prev_cell.copy(), self._visited)
+        else:
+            return Cell(self._x, self._y, self._value, None, self._visited)

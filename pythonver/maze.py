@@ -14,9 +14,9 @@ class Maze:
         except FileNotFoundError:
             print(f'File {fname} not found.')
             return None
-        lines = [line.strip() for line in f.readlines()]
-        h = int(lines[0])
-        w = int(lines[1])
+        lines = [line.strip().split(',') for line in f.readlines()]
+        h = int(lines[0][0])
+        w = int(lines[1][0])
         maze = [[Cell(x, y, int(lines[y+2][x]), None, False) for x in range(w)] for y in range(h)]
         return maze
     
@@ -43,6 +43,9 @@ class Maze:
             outstr += '\n'
         return outstr
     
+    def get_maze(self) -> list[list[Cell]]:
+        return self._copy()
+
     def get_cell(self, x : int, y : int) -> Cell:
         return self._maze[y][x]
     
@@ -61,6 +64,9 @@ class Maze:
                 for cell in row:
                     maze[cell.get_y()][cell.get_x()] = cell
         self._maze = maze
+
+    def _copy(self):
+        return [[cell.copy() for cell in row] for row in self._maze]
 
 
     
