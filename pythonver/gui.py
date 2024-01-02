@@ -19,9 +19,10 @@ class View:
     def __init__(self, maze: list[list[Cell]]) -> None:
         self._maze = Maze(maze)
         self._running = True
-        self._solution = None
+        self._solution = BFS_Solver(self._maze).solve()
         self._index = 0
         self._solving = False
+        print(self._solution)
         
     def run(self) -> None:
         pygame.init()
@@ -31,7 +32,7 @@ class View:
         pygame.display.set_caption('Maze Solver')
         clock = pygame.time.Clock()
         while self._running and (not self._solution or self._index < len(self._solution)):
-            clock.tick(1)
+            clock.tick(3)
             self._handle_events()
             if self._solving:
                 self._update_maze()
@@ -54,9 +55,6 @@ class View:
                 elif event.key == pygame.K_RETURN:
                     self._solving = False
 
-    def solve(self) -> None:
-        self._solution = BFS_Solver(self._maze).solve()
-
     def _draw(self) -> None:
         self._screen.fill((150, 150, 150)) # gray background color
         self._draw_maze()
@@ -72,8 +70,9 @@ class View:
         pygame.display.set_mode(size, pygame.RESIZABLE)
 
     def _update_maze(self) -> None:
-        up, cell = self._solution[self._index].split()
-        cell = self._maze.get_cell(int(cell[1]), int(cell[3]))
+        up, cell = self._solution[self._index].split(' ', maxsplit=1)
+        x, y = map(int, cell.split(',', maxsplit=1))
+        cell = self._maze.get_cell(x, y)
         if up == 'added':
             cell.set_value(6)
         elif up == 'visited':

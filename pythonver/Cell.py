@@ -24,9 +24,15 @@ class Cell:
     def visit(self) -> None:
         self._visited = True
 
+    def set_value(self, value : int) -> None:
+        self._value = value
+
     def __str__(self) -> str:
-        return f"({self._x}, {self._y})"
+        return f"{self._x},{self._y}"
     
+    def set_prev_cell(self, prev_cell : 'Cell') -> None:
+        self._prev_cell = prev_cell
+
     def copy(self):
         if self._prev_cell:
             return Cell(self._x, self._y, self._value, self._prev_cell.copy(), self._visited)

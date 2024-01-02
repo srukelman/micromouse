@@ -15,10 +15,12 @@ class BFS_Solver:
     def solve(self) -> list[str]:
         q = deque()
         sol = []
-        q.add(self._start)
-        sol.append('added ' + str(self._start))
+        q.append(self._start)
+        sol.append('added ' + str(self._start[0]) + ',' + str(self._start[1]))
         while q:
             curr = q.popleft()
+            x, y = curr
+            curr = self._maze.get_cell(x, y)
             if curr.get_value() == 3:
                 self._finish = curr
                 break
@@ -28,7 +30,7 @@ class BFS_Solver:
                 self._steps.append(curr)
                 for cell in self._get_neighbors(curr):
                     sol.append('added ' + str(cell))
-                    q.append(cell)
+                    q.append((cell.get_x(), cell.get_y()))
         
         if not self._finish:
             return None
@@ -36,6 +38,7 @@ class BFS_Solver:
             path = self._get_path()
             for cell in path:
                 sol.append('solving ' + str(cell))
+        return sol
         
     def _get_path(self) -> list[Cell]:
         path = []
@@ -50,12 +53,24 @@ class BFS_Solver:
         y = cell.get_y()
         neighbors = []
         if x > 0:
-            neighbors.append(self._maze.get_cell(x-1, y))
+            curr = self._maze.get_cell(x-1, y)
+            if curr.get_value() != 1 and not curr.get_visited():
+                neighbors.append(curr)
+                curr.set_prev_cell(cell)
         if x < self._maze.get_width() - 1:
-            neighbors.append(self._maze.get_cell(x+1, y))
+            curr = self._maze.get_cell(x+1, y)
+            if curr.get_value() != 1 and not curr.get_visited():
+                neighbors.append(curr)
+                curr.set_prev_cell(cell)
         if y > 0:
-            neighbors.append(self._maze.get_cell(x, y-1))
+            curr = self._maze.get_cell(x, y-1)
+            if curr.get_value() != 1 and not curr.get_visited():
+                neighbors.append(curr)
+                curr.set_prev_cell(cell)
         if y < self._maze.get_height() - 1:
-            neighbors.append(self._maze.get_cell(x, y+1))
+            curr = self._maze.get_cell(x, y+1)
+            if curr.get_value() != 1 and not curr.get_visited():
+                neighbors.append(curr)
+                curr.set_prev_cell(cell)
         return neighbors
 
