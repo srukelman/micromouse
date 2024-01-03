@@ -1,4 +1,10 @@
 # MicroMouse
+<figure>
+    <img src='./resources/bfs_solving.gif'
+        alt='maze-solving-animation' />
+    <figcaption style='text-align:center'>obligatory maze solving gif</figcaption>
+</figure>
+
 There are 2 Parts to this project
 First there is the MazeMaker which is a UI for designing mazes
 Second there is the MazeSolver which is supposed to emulate a micromouse solving the maze

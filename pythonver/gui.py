@@ -30,7 +30,7 @@ class View:
         self._draw()
         pygame.display.set_caption('Maze Solver')
         clock = pygame.time.Clock()
-        pygame.image.save(self._screen, '.\\imgs\\solving' + str(self._index) + '.png')
+        pygame.image.save(self._screen, '.\\imgs\\solving' + str(669 + self._index) + '.png')
         while self._running:
             clock.tick(10)
             self._handle_events()
@@ -38,7 +38,7 @@ class View:
                 self._update_maze()
                 self._index += 1
                 self._draw()
-                pygame.image.save(self._screen, '.\\imgs\\solving' + str(self._index) + '.png')
+                pygame.image.save(self._screen, '.\\imgs\\solving' + str(669 + self._index) + '.png')
             elif self._solving:
                 self._solving = False
                 print('done')

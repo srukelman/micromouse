@@ -1,6 +1,6 @@
 import imageio
 filenames = []
-for i in range(0, 335):
+for i in range(0, 803):
     filenames.append(f'./imgs/solving{i}.png')
 images = []
 for filename in filenames:
