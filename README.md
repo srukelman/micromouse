@@ -2,20 +2,12 @@
 <figure>
     <img src='./resources/bfs_solving.gif'
         alt='maze-solving-animation' />
-    <figcaption style='text-align:center'>obligatory maze solving gif</figcaption>
+    
 </figure>
 
-There are 2 Parts to this project
-First there is the MazeMaker which is a UI for designing mazes
-Second there is the MazeSolver which is supposed to emulate a micromouse solving the maze
 
 ## MazeMaker
 The goal for this is that it will create a maze on it own but to make it quicker to design mazes manually I created a simple GUI that lets you make the maze. Then the maze maker outputs the maze to a text file that can then be imported by the maze solver.
-
-### How the Manual GUI works
-
-
-### How the Maze Generating Algorithm works
 
 ## MazeSolver
 The goal of this is that I will be able to create and test different maze solving algorithms just to learn how to design better algorithms.
@@ -33,3 +25,6 @@ As an algorithm on its own, the breadth first search algorithm is highly efficie
 Depth first search works by going as deep as possible in one direction (i.e. until it reaches a dead end) then it backtracks to the last spot where the path split and follows that path until it reaches a dead end. This continues until it finds the end. While this does not guarantee the shortest solution. This is the intuitive way to solve a maze and it makes sense to implement a similar algorithm for a micromouse.
 
 DFS is implemented almost identically to BFS except for the use of a Stack instead of a Queue. 
+
+### Drawbacks of the Depth First Search
+The DFS algorithm is very efficient in terms of the number of cells visited. However, it is not guaranteed to find the shortest path. This is because it will always follow the first path it finds until it reaches a dead end. This means that it is possible that it will find a path that is longer than the shortest path.
