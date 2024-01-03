@@ -22,7 +22,6 @@ class View:
         self._solution = BFS_Solver(self._maze).solve()
         self._index = 0
         self._solving = False
-        print(self._solution)
         
     def run(self) -> None:
         pygame.init()
@@ -31,13 +30,18 @@ class View:
         self._draw()
         pygame.display.set_caption('Maze Solver')
         clock = pygame.time.Clock()
-        while self._running and (not self._solution or self._index < len(self._solution)):
-            clock.tick(3)
+        pygame.image.save(self._screen, '.\\imgs\\solving' + str(self._index) + '.png')
+        while self._running:
+            clock.tick(10)
             self._handle_events()
-            if self._solving:
+            if self._solving and self._index < len(self._solution):
                 self._update_maze()
                 self._index += 1
                 self._draw()
+                pygame.image.save(self._screen, '.\\imgs\\solving' + str(self._index) + '.png')
+            elif self._solving:
+                self._solving = False
+                print('done')
         pygame.quit()
 
     def _handle_events(self):
@@ -81,7 +85,6 @@ class View:
             cell.set_value(4)
         self._draw_cell(cell)
         pygame.display.flip()
-        self._index += 1
 
     def _draw_cell(self, cell: Cell) -> None:
         left_margin = self._screen.get_width() // 5
